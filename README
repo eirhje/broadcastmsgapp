@@ -1,0 +1,11 @@
+From https://www.blix.com/eirik/forgotten-broadcast
+
+At our company we have an internal VPN which all the computers always are connected. One of the connected services to this network is our VoIP solution. Our VoIP/PBX solution runs through a regular menu with which department do you want to contact (sales, technical, finance) etc. I thought it would be a good idea to know who is calling before I actually pick up the phone while they are still in the 1 minute queue - so I could look up their details and be ready, and/or to see who is calling on our switchboard for my colleagues. It is very easy to get this data from the VoIP server, but I wanted to show the data instantaneously on the computers connected to the VPN.
+
+I decided to use broadcast to send an UDP-packet upon the arrival of a phone call on the PBX. I wrote a little script in python which does exactly this. An UDP packet with the information about who is calling is sent on port 6000 on the 172.31.0.255 address (which is the broadcast ip on my VPN). This is automatically and instantaneously sent to all the users of the VPN that run the client, with the benefit that there is no delay for a pull request or something like this to pick up the information.
+
+The python script is running on a Linux machine which executes the command broadcast.py $(CALLERID) and on the Mac machine which I run as a client I use osascript to display the message. I also have a Linux machine where I use pynotify to show the same message, an example of that is included in the end of this post.
+
+I have since adapted a few versions to automatically look up who the caller is, and other relevant information from our CRM system. This helps me a lot to not be disturbed by telemarketers…
+
+Let me know what you think of it.
